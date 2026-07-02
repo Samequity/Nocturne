@@ -55,6 +55,15 @@ const ROUTES = [
   "M12 22C45 10 55 55 90 60",
 ];
 
+// Stylized Paris silhouette: the boulevard périphérique boundary (with the
+// Bois de Boulogne / Bois de Vincennes bulges) and the Seine's course through
+// the city. Hand-drawn approximations, not survey-accurate — the point is
+// "recognizably Paris," not a literal map.
+const PARIS_BOUNDARY =
+  "M50 6C68 6 82 14 88 28C94 40 90 48 96 55C90 62 84 66 78 74C70 84 58 92 50 94C36 96 22 90 14 78C6 66 10 58 4 50C10 42 6 32 14 22C22 12 34 6 50 6Z";
+const SEINE_RIVER =
+  "M85 12C70 20 68 30 55 38C42 46 46 52 58 56C68 60 62 68 48 72C36 76 30 82 15 88";
+
 export default function NocturneHero() {
   const [ready, setReady] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -317,6 +326,47 @@ export default function NocturneHero() {
                       backgroundSize: "12.5% 14%",
                     }}
                   />
+
+                  {/* Paris silhouette — périphérique boundary + Seine */}
+                  <svg
+                    className="absolute inset-0 h-full w-full"
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="none"
+                  >
+                    <motion.path
+                      d={PARIS_BOUNDARY}
+                      fill="none"
+                      stroke="rgba(245,241,232,0.22)"
+                      strokeWidth={0.5}
+                      strokeDasharray="1.5 1.5"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 1.4, delay: 0.2, ease: EXPO_OUT }}
+                    />
+                    <motion.path
+                      d={SEINE_RIVER}
+                      fill="none"
+                      stroke="rgba(139,133,145,0.45)"
+                      strokeWidth={0.7}
+                      strokeLinecap="round"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 1.2, delay: 0.35, ease: EXPO_OUT }}
+                    />
+                  </svg>
+
+                  {/* city label */}
+                  <div
+                    className="absolute left-3 top-3"
+                    style={{
+                      fontFamily: "'Space Mono', monospace",
+                      fontSize: "clamp(9px, min(1.3vh, 1vw), 11px)",
+                      letterSpacing: "0.24em",
+                      color: "#8b8591",
+                    }}
+                  >
+                    PARIS
+                  </div>
 
                   {/* radar sweep */}
                   <motion.div
